@@ -16,7 +16,7 @@
 '''
 
 
-import usb, logging
+import usb, logging, struct
 
 # Check pyusb dependency
 try:
@@ -45,6 +45,7 @@ ENABLE_LNA_PA                  = 0x0B
 TRANSMIT_PAYLOAD_GENERIC       = 0x0C
 ENTER_PROMISCUOUS_MODE_GENERIC = 0x0D
 RECEIVE_PAYLOAD                = 0x12
+READ_MEMORY                    = 0x13
 
 # nRF24LU1+ registers
 RF_CH = 0x05
@@ -142,6 +143,11 @@ class nrf24:
   def enable_lna(self):
     self.send_usb_command(ENABLE_LNA_PA, [])
     self.dongle.read(0x81, 64, timeout=nrf24.usb_timeout)
+
+  def read_memory(self, addr, size):
+      payload = map(ord, list(struct.pack('>H', addr))) + [size]
+      self.send_usb_command(READ_MEMORY, payload)
+      return self.dongle.read(0x81, 64, timeout=nrf24.usb_timeout)
 
   # Send a USB command
   def send_usb_command(self, request, data):

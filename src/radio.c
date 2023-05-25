@@ -582,5 +582,14 @@ void handle_radio_request(uint8_t request, uint8_t * data)
     rfce = 1;
     in1bc = 1;
   }
+
+  else if(request == READ_MEMORY)
+  {
+    uint16_t addr = ((uint16_t) data[0] << 8) | (uint16_t) data[1];
+    uint8_t* ptr = (uint8_t __xdata*) addr;
+    uint8_t size = (data[2] > 64 ? 64 : data[2]);
+    memcpy(in1buf, ptr, size);
+    in1bc = size;
+  }
 }
 

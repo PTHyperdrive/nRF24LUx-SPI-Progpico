@@ -201,3 +201,25 @@ Transmit a continuous tone at 2405MHz
 ```
 ./nrf24-continuous-tone-test.py -c 5
 ```
+
+## flash dumper
+
+Flash memory dumper, which reads the internal flash memory of an nRF24LU1+ chip and write it to a file.
+
+```
+usage: ./nrf24-flash-dumper.py [-h] [-v] [-i INDEX] flash_dump
+
+positional arguments:
+  flash_dump                          file to save a flash dump to.
+
+optional arguments:
+  -h, --help                          show this help message and exit
+  -v, --verbose                       Enable verbose output
+  -i INDEX, --index INDEX             Dongle index
+```
+
+Write flash memory to "flash.bin"
+
+```
+./nrf24-flash-dumper.py flash.bin
+```
